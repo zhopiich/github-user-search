@@ -1,34 +1,21 @@
-import type { GitHubUser, SearchResult } from './types/github'
-import { useEffect, useState } from 'react'
+import type { SearchResult } from './types/github'
+import { useState } from 'react'
 import SearchBar from './components/SearchBar'
 import UserCard from './components/UserCard'
+import { useDebounce } from './hooks/useDebounce'
+import { useFetch } from './hooks/useFetch'
 import './App.css'
 
 function App() {
   const [query, setQuery] = useState('')
-  const [users, setUsers] = useState<GitHubUser[]>([])
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState<string | null>(null)
+  const debouncedQuery = useDebounce(query, 200)
 
-  useEffect(() => {
-    if (!query.trim()) {
-      setUsers([])
-      return
-    }
+  const url = debouncedQuery.trim()
+    ? `https://api.github.com/search/users?q=${encodeURIComponent(debouncedQuery)}&per_page=12`
+    : null
 
-    setLoading(true)
-    setError(null)
-
-    fetch(`https://api.github.com/search/users?q=${encodeURIComponent(query)}&per_page=12`)
-      .then((res) => {
-        if (!res.ok)
-          throw new Error(`GitHub API error: ${res.status}`)
-        return res.json() as Promise<SearchResult>
-      })
-      .then(data => setUsers(data.items))
-      .catch(err => setError((err as Error).message))
-      .finally(() => setLoading(false))
-  }, [query])
+  const { data, loading, error } = useFetch<SearchResult>(url)
+  const users = data?.items ?? []
 
   return (
     <div className="app">
@@ -37,7 +24,7 @@ function App() {
 
       {loading && <p className="status">Loading...</p>}
       {error && <p className="status error">{error}</p>}
-      {!loading && !error && users.length === 0 && query.trim() && (
+      {!loading && !error && users.length === 0 && debouncedQuery.trim() && (
         <p className="status">No users found.</p>
       )}
 
