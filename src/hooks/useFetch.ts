@@ -6,17 +6,18 @@ interface FetchState<T> {
   error: string | null
 }
 
-export function useFetch<T>(url: string | null) {
+export function useFetch<T>(url: string | null, token?: string) {
   const [state, setState] = useState<FetchState<T>>({
     data: null,
     loading: false,
     error: null,
   })
 
-  const fetchData = useCallback(async (fetchUrl: string, signal: AbortSignal) => {
+  const fetchData = useCallback(async (fetchUrl: string, signal: AbortSignal, authToken?: string) => {
     setState(prev => ({ ...prev, loading: true, error: null }))
     try {
-      const res = await fetch(fetchUrl, { signal })
+      const headers: HeadersInit = authToken ? { Authorization: `Bearer ${authToken}` } : {}
+      const res = await fetch(fetchUrl, { signal, headers })
       if (!res.ok)
         throw new Error(`GitHub API error: ${res.status}`)
       const data: T = await res.json()
@@ -33,9 +34,9 @@ export function useFetch<T>(url: string | null) {
       return
 
     const controller = new AbortController()
-    fetchData(url, controller.signal)
+    fetchData(url, controller.signal, token)
     return () => controller.abort()
-  }, [url, fetchData])
+  }, [url, token, fetchData])
 
   return state
 }

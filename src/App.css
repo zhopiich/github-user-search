@@ -28,6 +28,57 @@ h1 {
   }
 }
 
+.token-input {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.token-toggle {
+  padding: 6px 14px;
+  font-size: 13px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text);
+  cursor: pointer;
+  transition:
+    border-color 0.2s,
+    color 0.2s;
+
+  &.active {
+    border-color: var(--accent-border);
+    color: var(--accent);
+  }
+
+  &.has-token {
+    border-width: 2px;
+    border-color: var(--accent);
+    color: var(--accent);
+    font-weight: 600;
+  }
+
+  &:hover {
+    border-color: var(--accent-border);
+  }
+}
+
+.token-input input {
+  padding: 6px 12px;
+  font-size: 13px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--bg);
+  color: var(--text-h);
+  outline: none;
+  width: 240px;
+  font-family: var(--mono);
+
+  &:focus {
+    border-color: var(--accent);
+  }
+}
+
 .status {
   color: var(--text);
   font-size: 15px;
