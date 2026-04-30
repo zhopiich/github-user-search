@@ -1,5 +1,6 @@
 import type { SearchResult } from '../types/github'
 import { useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import SearchBar from '../components/SearchBar'
 import TokenInput from '../components/TokenInput'
 import UserCard from '../components/UserCard'
@@ -7,7 +8,8 @@ import { useDebounce } from '../hooks/useDebounce'
 import { useFetch } from '../hooks/useFetch'
 
 export default function SearchPage() {
-  const [query, setQuery] = useState('')
+  const [searchParams, setSearchParams] = useSearchParams()
+  const query = searchParams.get('q') ?? ''
   const [token, setToken] = useState('')
 
   const debouncedQuery = useDebounce(query, 200)
@@ -18,9 +20,13 @@ export default function SearchPage() {
   const { data, loading, error } = useFetch<SearchResult>(url, token || undefined)
   const users = data?.items ?? []
 
+  function handleQueryChange(value: string) {
+    setSearchParams(value ? { q: value } : {}, { replace: true })
+  }
+
   return (
     <div className="page">
-      <SearchBar value={query} onChange={setQuery} />
+      <SearchBar value={query} onChange={handleQueryChange} />
       <TokenInput value={token} onChange={setToken} />
 
       {loading && <p className="status">Loading...</p>}
