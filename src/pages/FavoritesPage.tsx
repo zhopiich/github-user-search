@@ -27,7 +27,11 @@ export default function FavoritesPage() {
   const [search, setSearch] = useState('')
 
   const filtered = useMemo(
-    () => favorites.filter(u => u.login.toLowerCase().includes(search.toLowerCase())),
+    () => {
+      if (favorites.length <= 1)
+        return favorites
+      return favorites.filter(u => u.login.toLowerCase().includes(search.toLowerCase()))
+    },
     [favorites, search],
   )
 
