@@ -1,6 +1,26 @@
+import type { GitHubUser } from '../types/github'
 import { useMemo, useState } from 'react'
 import UserCard from '../components/UserCard'
 import { useFavorites } from '../hooks/useFavorites'
+
+interface FavoritesContentProps {
+  favorites: GitHubUser[]
+  filtered: GitHubUser[]
+}
+
+function FavoritesContent({ favorites, filtered }: FavoritesContentProps) {
+  if (favorites.length === 0) {
+    return <p className="status">No favorites yet.</p>
+  }
+  if (filtered.length === 0) {
+    return <p className="status">No matches.</p>
+  }
+  return (
+    <div className="user-grid">
+      {filtered.map(user => <UserCard key={user.id} user={user} />)}
+    </div>
+  )
+}
 
 export default function FavoritesPage() {
   const { favorites } = useFavorites()
@@ -23,17 +43,7 @@ export default function FavoritesPage() {
         />
       )}
 
-      {favorites.length === 0
-        ? <p className="status">No favorites yet.</p>
-        : filtered.length === 0
-          ? <p className="status">No matches.</p>
-          : (
-              <div className="user-grid">
-                {filtered.map(user => (
-                  <UserCard key={user.id} user={user} />
-                ))}
-              </div>
-            )}
+      <FavoritesContent favorites={favorites} filtered={filtered} />
     </div>
   )
 }
