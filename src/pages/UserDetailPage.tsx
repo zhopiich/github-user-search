@@ -1,17 +1,14 @@
-import type { GitHubUserDetail } from '../types/github'
 import { Link, useParams } from 'react-router-dom'
-import { useFetch } from '../hooks/useFetch'
+import { useGitHubUser } from '../hooks/useGitHubUser'
 
 export default function UserDetailPage() {
   const { login } = useParams<{ login: string }>()
-  const { data: user, loading, error } = useFetch<GitHubUserDetail>(
-    login ? `https://api.github.com/users/${login}` : null,
-  )
+  const { data: user, isPending, isError, error } = useGitHubUser(login)
 
-  if (loading)
+  if (isPending)
     return <p className="status">Loading...</p>
-  if (error)
-    return <p className="status error">{error}</p>
+  if (isError)
+    return <p className="status error">{error.message}</p>
   if (!user)
     return null
 
