@@ -1,8 +1,8 @@
 import { NavLink } from 'react-router-dom'
-import { useFavorites } from '../hooks/useFavorites'
+import { useFavoritesStore } from '../store/favoritesStore'
 
 export default function Navbar() {
-  const { favorites } = useFavorites()
+  const count = useFavoritesStore(s => s.favorites.length)
 
   return (
     <nav className="navbar">
@@ -13,8 +13,8 @@ export default function Navbar() {
         </NavLink>
         <NavLink to="/favorites" className={({ isActive }) => isActive ? 'active' : ''}>
           Favorites
-          {favorites.length > 0 && (
-            <span className="badge">{favorites.length}</span>
+          {count > 0 && (
+            <span className="badge">{count}</span>
           )}
         </NavLink>
       </div>

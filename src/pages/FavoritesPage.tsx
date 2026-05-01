@@ -1,7 +1,7 @@
 import type { GitHubUser } from '../types/github'
 import { useMemo, useState } from 'react'
 import UserCard from '../components/UserCard'
-import { useFavorites } from '../hooks/useFavorites'
+import { useFavoritesStore } from '../store/favoritesStore'
 
 interface FavoritesContentProps {
   favorites: GitHubUser[]
@@ -23,7 +23,7 @@ function FavoritesContent({ favorites, filtered }: FavoritesContentProps) {
 }
 
 export default function FavoritesPage() {
-  const { favorites } = useFavorites()
+  const favorites = useFavoritesStore(s => s.favorites)
   const [search, setSearch] = useState('')
 
   const filtered = useMemo(

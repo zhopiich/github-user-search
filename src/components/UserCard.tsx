@@ -1,23 +1,25 @@
 import type { GitHubUser } from '../types/github'
 import { memo } from 'react'
 import { Link } from 'react-router-dom'
-import { useFavorites } from '../hooks/useFavorites'
+import { useFavoritesStore } from '../store/favoritesStore'
 
 interface Props {
   user: GitHubUser
 }
 
 function UserCard({ user }: Props) {
-  const { favorites, dispatch } = useFavorites()
-  const isFavorited = favorites.some(f => f.id === user.id)
+  const isFavorited = useFavoritesStore(s => s.favorites.some(f => f.id === user.id))
+  const addFavorite = useFavoritesStore(s => s.addFavorite)
+  const removeFavorite = useFavoritesStore(s => s.removeFavorite)
 
   function toggleFavorite(e: React.MouseEvent) {
     e.preventDefault() // prevent the outer <Link> from triggering navigation
-    dispatch(
-      isFavorited
-        ? { type: 'REMOVE_FAVORITE', payload: user.id }
-        : { type: 'ADD_FAVORITE', payload: user },
-    )
+    if (isFavorited) {
+      removeFavorite(user.id)
+    }
+    else {
+      addFavorite(user)
+    }
   }
 
   return (
