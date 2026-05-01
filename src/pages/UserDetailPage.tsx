@@ -1,4 +1,4 @@
-import { Link, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { useGitHubUser } from '../hooks/useGitHubUser'
 
 export default function UserDetailPage() {
@@ -14,7 +14,6 @@ export default function UserDetailPage() {
 
   return (
     <div className="page user-detail">
-      <Link to="/" className="back-link">← Back to search</Link>
       <div className="detail-card">
         <img src={user.avatar_url} alt={user.login} width={120} height={120} />
         <div className="detail-info">
