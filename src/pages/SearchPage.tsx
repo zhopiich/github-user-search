@@ -1,3 +1,4 @@
+import { useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import SearchBar from '../components/SearchBar'
@@ -10,6 +11,7 @@ export default function SearchPage() {
   const [searchParams, setSearchParams] = useSearchParams()
   const query = searchParams.get('q') ?? ''
   const [token, setToken] = useState('')
+  const queryClient = useQueryClient()
 
   const debouncedQuery = useDebounce(query, 200)
   const { data, isFetching, isError, error } = useSearchUsers(debouncedQuery, token || undefined)
@@ -19,10 +21,18 @@ export default function SearchPage() {
     setSearchParams(value ? { q: value } : {}, { replace: true })
   }
 
+  function handleTokenChange(value: string) {
+    setToken(value)
+    queryClient.cancelQueries({ queryKey: ['search-users'] })
+    queryClient.cancelQueries({ queryKey: ['github-user'] })
+    queryClient.removeQueries({ queryKey: ['search-users'] })
+    queryClient.removeQueries({ queryKey: ['github-user'] })
+  }
+
   return (
     <div className="page">
       <SearchBar value={query} onChange={handleQueryChange} />
-      <TokenInput value={token} onChange={setToken} />
+      <TokenInput value={token} onChange={handleTokenChange} />
 
       {isFetching && <p className="status">Loading...</p>}
       {isError && <p className="status error">{error.message}</p>}
