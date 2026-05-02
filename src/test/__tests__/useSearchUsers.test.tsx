@@ -17,8 +17,8 @@ describe('useSearchUsers', () => {
   it('returns data on success', async () => {
     const { result } = renderHook(() => useSearchUsers('react'), { wrapper: makeWrapper() })
     await waitFor(() => expect(result.current.data).toBeDefined())
-    expect(result.current.data?.items).toHaveLength(2)
-    expect(result.current.data?.items[0].login).toBe('alice')
+    expect(result.current.data?.pages[0].items).toHaveLength(2)
+    expect(result.current.data?.pages[0].items[0].login).toBe('alice')
   })
 
   it('does not fetch when query is empty', () => {

@@ -15,7 +15,7 @@ export default function SearchPage() {
 
   const debouncedQuery = useDebounce(query, 200)
   const { data, isFetching, isError, error } = useSearchUsers(debouncedQuery, token || undefined)
-  const users = data?.items ?? []
+  const users = data?.pages.flatMap(page => page.items) ?? []
 
   function handleQueryChange(value: string) {
     setSearchParams(value ? { q: value } : {}, { replace: true })
