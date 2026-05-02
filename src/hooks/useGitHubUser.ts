@@ -5,11 +5,7 @@ import { githubFetch } from '../lib/githubFetch'
 export function useGitHubUser(login: string | undefined, token?: string) {
   return useQuery({
     queryKey: ['github-user', login],
-    queryFn: ({ signal }) => githubFetch<GitHubUserDetail>(
-      `https://api.github.com/users/${login}`,
-      token,
-      signal,
-    ),
+    queryFn: () => githubFetch<GitHubUserDetail>(`https://api.github.com/users/${login}`, token),
     enabled: !!login,
     staleTime: 60_000,
   })
