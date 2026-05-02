@@ -1,5 +1,6 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+import { useState } from 'react'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import FavoritesPage from './pages/FavoritesPage'
@@ -10,13 +11,15 @@ import './App.css'
 const queryClient = new QueryClient()
 
 export default function App() {
+  const [token, setToken] = useState('')
+
   return (
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
         <div className="app">
           <Navbar />
           <Routes>
-            <Route path="/" element={<SearchPage />} />
+            <Route path="/" element={<SearchPage token={token} onTokenChange={setToken} />} />
             <Route path="/favorites" element={<FavoritesPage />} />
             <Route path="/user/:login" element={<UserDetailPage />} />
           </Routes>
