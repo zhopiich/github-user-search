@@ -25,5 +25,6 @@ export function useSearchUsers(query: string, token?: string) {
     },
     enabled: !!query.trim(),
     staleTime: 60_000,
+    refetchOnWindowFocus: false,
   })
 }
