@@ -1,5 +1,4 @@
 import { useQueryClient } from '@tanstack/react-query'
-import { useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import SearchBar from '../components/SearchBar'
 import TokenInput from '../components/TokenInput'
@@ -7,10 +6,14 @@ import VirtualUserGrid from '../components/VirtualUserGrid'
 import { useDebounce } from '../hooks/useDebounce'
 import { useSearchUsers } from '../hooks/useSearchUsers'
 
-export default function SearchPage() {
+interface SearchPageProps {
+  token: string
+  onTokenChange: (value: string) => void
+}
+
+export default function SearchPage({ token, onTokenChange }: SearchPageProps) {
   const [searchParams, setSearchParams] = useSearchParams()
   const query = searchParams.get('q') ?? ''
-  const [token, setToken] = useState('')
   const queryClient = useQueryClient()
 
   const debouncedQuery = useDebounce(query, 200)
@@ -30,7 +33,7 @@ export default function SearchPage() {
   }
 
   function handleTokenChange(value: string) {
-    setToken(value)
+    onTokenChange(value)
     queryClient.cancelQueries({ queryKey: ['search-users'] })
     queryClient.cancelQueries({ queryKey: ['github-user'] })
     queryClient.removeQueries({ queryKey: ['search-users'] })
