@@ -8,10 +8,9 @@ const GITHUB_SEARCH_RESULT_LIMIT = 1000
 export function useSearchUsers(query: string, token?: string) {
   return useInfiniteQuery({
     queryKey: ['search-users', query],
-    queryFn: ({ pageParam, signal }) => githubFetch<SearchResult>(
+    queryFn: ({ pageParam }) => githubFetch<SearchResult>(
       `https://api.github.com/search/users?q=${encodeURIComponent(query)}&per_page=${SEARCH_USERS_PER_PAGE}&page=${pageParam}`,
       token,
-      signal,
     ),
     initialPageParam: 1,
     getNextPageParam: (lastPage, allPages) => {
