@@ -17,7 +17,7 @@ describe('useSearchUsers', () => {
   it('returns data on success', async () => {
     const { result } = renderHook(() => useSearchUsers('react'), { wrapper: makeWrapper() })
     await waitFor(() => expect(result.current.data).toBeDefined())
-    expect(result.current.data?.pages[0].items).toHaveLength(2)
+    expect(result.current.data?.pages[0].items).toHaveLength(30)
     expect(result.current.data?.pages[0].items[0].login).toBe('alice')
   })
 
@@ -36,5 +36,18 @@ describe('useSearchUsers', () => {
     const { result } = renderHook(() => useSearchUsers('fail'), { wrapper: makeWrapper() })
     await waitFor(() => expect(result.current.isError).toBe(true))
     expect(result.current.error?.message).toMatch(/422/)
+  })
+
+  it('fetches the next search page', async () => {
+    const { result } = renderHook(() => useSearchUsers('react'), { wrapper: makeWrapper() })
+    await waitFor(() => expect(result.current.hasNextPage).toBe(true))
+
+    await result.current.fetchNextPage()
+
+    await waitFor(() => {
+      expect(result.current.data?.pages).toHaveLength(2)
+    })
+    expect(result.current.data?.pages[1].items[0].login).toBe('page-two-user')
+    expect(result.current.hasNextPage).toBe(false)
   })
 })
