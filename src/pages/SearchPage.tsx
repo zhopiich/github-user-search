@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import SearchBar from '../components/SearchBar'
 import TokenInput from '../components/TokenInput'
-import UserCard from '../components/UserCard'
+import VirtualUserGrid from '../components/VirtualUserGrid'
 import { useDebounce } from '../hooks/useDebounce'
 import { useSearchUsers } from '../hooks/useSearchUsers'
 
@@ -14,8 +14,16 @@ export default function SearchPage() {
   const queryClient = useQueryClient()
 
   const debouncedQuery = useDebounce(query, 200)
-  const { data, isFetching, isError, error } = useSearchUsers(debouncedQuery, token || undefined)
-  const users = data?.items ?? []
+  const {
+    data,
+    fetchNextPage,
+    hasNextPage,
+    isError,
+    isFetchingNextPage,
+    isLoading,
+    error,
+  } = useSearchUsers(debouncedQuery, token || undefined)
+  const users = data?.pages.flatMap(page => page.items) ?? []
 
   function handleQueryChange(value: string) {
     setSearchParams(value ? { q: value } : {}, { replace: true })
@@ -34,17 +42,23 @@ export default function SearchPage() {
       <SearchBar value={query} onChange={handleQueryChange} />
       <TokenInput value={token} onChange={handleTokenChange} />
 
-      {isFetching && <p className="status">Loading...</p>}
+      {isLoading && <p className="status">Loading...</p>}
       {isError && <p className="status error">{error.message}</p>}
-      {!isFetching && !isError && users.length === 0 && debouncedQuery.trim() && (
+      {!isLoading && !isError && users.length === 0 && debouncedQuery.trim() && (
         <p className="status">No users found.</p>
       )}
 
-      <div className="user-grid">
-        {users.map(user => (
-          <UserCard key={user.id} user={user} />
-        ))}
-      </div>
+      <VirtualUserGrid
+        users={users}
+        hasNextPage={hasNextPage}
+        isFetchingNextPage={isFetchingNextPage}
+        onLoadMore={fetchNextPage}
+      />
+
+      {isFetchingNextPage && <p className="status">Loading more...</p>}
+      {!isLoading && !isError && users.length > 0 && !hasNextPage && (
+        <p className="status">End of results</p>
+      )}
     </div>
   )
 }
