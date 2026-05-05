@@ -2,12 +2,12 @@ import type { GitHubUser } from '../types/github'
 import { useWindowVirtualizer } from '@tanstack/react-virtual'
 import { useEffect, useRef, useState } from 'react'
 import UserCard from './UserCard'
+import { shouldLoadMoreGridPage } from './VirtualUserGrid.utils'
 
 const GRID_MIN_COLUMN_WIDTH = 160
 const GRID_GAP = 16
 const ESTIMATED_CARD_HEIGHT = 142
 const ESTIMATED_ROW_HEIGHT = ESTIMATED_CARD_HEIGHT + GRID_GAP
-const LOAD_MORE_ROW_THRESHOLD = 1
 
 interface Props {
   users: GitHubUser[]
@@ -41,6 +41,15 @@ export default function VirtualUserGrid({
   })
   const virtualRows = rowVirtualizer.getVirtualItems()
   const lastVirtualRowIndex = virtualRows.at(-1)?.index
+  const scrollMargin = rowVirtualizer.options.scrollMargin
+  const shouldLoadMore = shouldLoadMoreGridPage({
+    hasNextPage,
+    isFetchingNextPage,
+    lastVirtualRowIndex,
+    rowCount,
+    scrollMargin,
+    scrollOffset: rowVirtualizer.scrollOffset,
+  })
 
   useEffect(() => {
     const grid = gridRef.current
@@ -64,15 +73,9 @@ export default function VirtualUserGrid({
   }, [columnCount, rowVirtualizer])
 
   useEffect(() => {
-    if (
-      lastVirtualRowIndex !== undefined
-      && lastVirtualRowIndex >= rowCount - LOAD_MORE_ROW_THRESHOLD
-      && hasNextPage
-      && !isFetchingNextPage
-    ) {
+    if (shouldLoadMore)
       onLoadMore()
-    }
-  }, [hasNextPage, isFetchingNextPage, lastVirtualRowIndex, onLoadMore, rowCount])
+  }, [onLoadMore, shouldLoadMore])
 
   return (
     <div
