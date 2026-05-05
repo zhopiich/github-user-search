@@ -278,6 +278,28 @@
   color: #ef4444;
 }
 
+.route-error {
+  gap: 12px;
+}
+
+.retry-button {
+  padding: 7px 16px;
+  font-size: 14px;
+  border: 1px solid var(--accent-border);
+  border-radius: 6px;
+  background: var(--bg);
+  color: var(--accent);
+  cursor: pointer;
+  transition:
+    border-color 0.2s,
+    color 0.2s;
+
+  &:hover {
+    border-color: var(--accent);
+    color: var(--text-h);
+  }
+}
+
 .virtual-user-grid {
   position: relative;
   width: 100%;
