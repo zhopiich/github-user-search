@@ -1,12 +1,24 @@
 import type { GitHubUserDetail } from '../types/github'
-import { useQuery } from '@tanstack/react-query'
+import { useQuery, useSuspenseQuery } from '@tanstack/react-query'
 import { githubFetch } from '../lib/githubFetch'
+
+function githubUserQueryOptions(login: string, token?: string) {
+  return {
+    queryKey: ['github-user', login],
+    queryFn: () => githubFetch<GitHubUserDetail>(`https://api.github.com/users/${login}`, token),
+    retry: false,
+    staleTime: 60_000,
+  }
+}
 
 export function useGitHubUser(login: string | undefined, token?: string) {
   return useQuery({
+    ...githubUserQueryOptions(login ?? '', token),
     queryKey: ['github-user', login],
-    queryFn: () => githubFetch<GitHubUserDetail>(`https://api.github.com/users/${login}`, token),
     enabled: !!login,
-    staleTime: 60_000,
   })
+}
+
+export function useSuspenseGitHubUser(login: string, token?: string) {
+  return useSuspenseQuery(githubUserQueryOptions(login, token))
 }
