@@ -16,7 +16,7 @@ function FavoritesContent({ favorites, filtered }: FavoritesContentProps) {
     return <p className="status">No matches.</p>
   }
   return (
-    <div className="user-grid">
+    <div className="favorites-user-grid">
       {filtered.map(user => <UserCard key={user.id} user={user} />)}
     </div>
   )

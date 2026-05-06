@@ -342,6 +342,14 @@
   }
 }
 
+.favorites-user-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 16px;
+  width: 100%;
+  max-width: 900px;
+}
+
 .user-card {
   position: relative;
   display: flex;
