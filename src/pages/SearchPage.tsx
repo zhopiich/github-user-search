@@ -1,9 +1,10 @@
 import { useQueryClient } from '@tanstack/react-query'
-import { useSearchParams } from 'react-router-dom'
 import SearchBar from '../components/SearchBar'
+import SearchResults from '../components/SearchResults'
+import { getSearchResultsData, getSearchResultsStatus } from '../components/SearchResults.state'
 import TokenInput from '../components/TokenInput'
-import VirtualUserGrid from '../components/VirtualUserGrid'
 import { useDebounce } from '../hooks/useDebounce'
+import { useSearchPageParams } from '../hooks/useSearchPageParams'
 import { useSearchUsers } from '../hooks/useSearchUsers'
 
 interface SearchPageProps {
@@ -12,8 +13,7 @@ interface SearchPageProps {
 }
 
 export default function SearchPage({ token, onTokenChange }: SearchPageProps) {
-  const [searchParams, setSearchParams] = useSearchParams()
-  const query = searchParams.get('q') ?? ''
+  const { query, setQuery } = useSearchPageParams()
   const queryClient = useQueryClient()
 
   const debouncedQuery = useDebounce(query, 200)
@@ -27,9 +27,20 @@ export default function SearchPage({ token, onTokenChange }: SearchPageProps) {
     error,
   } = useSearchUsers(debouncedQuery, token || undefined)
   const users = data?.pages.flatMap(page => page.items) ?? []
+  const searchResultsStatus = getSearchResultsStatus({
+    query: debouncedQuery.trim(),
+    users,
+    isLoading,
+    isError,
+  })
+  const searchResultsData = getSearchResultsData({
+    users,
+    hasNextPage,
+    isFetchingNextPage,
+  })
 
   function handleQueryChange(value: string) {
-    setSearchParams(value ? { q: value } : {}, { replace: true })
+    setQuery(value)
   }
 
   function handleTokenChange(value: string) {
@@ -45,23 +56,15 @@ export default function SearchPage({ token, onTokenChange }: SearchPageProps) {
       <SearchBar value={query} onChange={handleQueryChange} />
       <TokenInput value={token} onChange={handleTokenChange} />
 
-      {isLoading && <p className="status">Loading...</p>}
-      {isError && <p className="status error">{error.message}</p>}
-      {!isLoading && !isError && users.length === 0 && debouncedQuery.trim() && (
-        <p className="status">No users found.</p>
-      )}
-
-      <VirtualUserGrid
-        users={users}
-        hasNextPage={hasNextPage}
-        isFetchingNextPage={isFetchingNextPage}
+      <SearchResults
+        status={searchResultsStatus}
+        data={searchResultsData}
+        error={error}
         onLoadMore={fetchNextPage}
+        onRetry={() => {
+          queryClient.invalidateQueries({ queryKey: ['search-users'] })
+        }}
       />
-
-      {isFetchingNextPage && <p className="status">Loading more...</p>}
-      {!isLoading && !isError && users.length > 0 && !hasNextPage && (
-        <p className="status">End of results</p>
-      )}
     </div>
   )
 }
