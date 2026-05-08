@@ -12,7 +12,7 @@ import './App.css'
 
 const queryClient = new QueryClient()
 
-function UserDetailRoute() {
+function UserDetailRoute({ token }: { token: string }) {
   return (
     <QueryErrorResetBoundary>
       {({ reset }) => (
@@ -23,7 +23,7 @@ function UserDetailRoute() {
           )}
         >
           <Suspense fallback={<PageLoadingFallback label="Loading user..." />}>
-            <UserDetailPage />
+            <UserDetailPage token={token} />
           </Suspense>
         </ErrorBoundary>
       )}
@@ -42,7 +42,7 @@ export default function App() {
           <Routes>
             <Route path="/" element={<SearchPage token={token} onTokenChange={setToken} />} />
             <Route path="/favorites" element={<FavoritesPage />} />
-            <Route path="/user/:login" element={<UserDetailRoute />} />
+            <Route path="/user/:login" element={<UserDetailRoute token={token} />} />
           </Routes>
         </div>
       </BrowserRouter>
