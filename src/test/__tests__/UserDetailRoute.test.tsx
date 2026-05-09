@@ -1,4 +1,5 @@
 import { render, screen, waitForElementToBeRemoved } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { http, HttpResponse } from 'msw'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import App from '../../App'
@@ -37,6 +38,27 @@ describe('user detail route boundaries', () => {
     expect(screen.getByRole('link', { name: 'Overview' })).toHaveClass('active')
     expect(screen.getByRole('link', { name: 'Repos' })).toHaveAttribute('href', '/user/alice/repos')
     expect(screen.getByText('No bio provided.')).toBeInTheDocument()
+  })
+
+  it('renders repositories for the repos child route', async () => {
+    renderUserRoute('/user/alice/repos')
+
+    expect(await screen.findByRole('heading', { name: 'Alice' })).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: 'Repos' })).toHaveClass('active')
+    expect(await screen.findByRole('link', { name: 'react-learning' })).toBeInTheDocument()
+    expect(screen.getByText('TypeScript')).toBeInTheDocument()
+  })
+
+  it('loads the next repository page from the repos child route', async () => {
+    const user = userEvent.setup()
+    renderUserRoute('/user/alice/repos')
+
+    await screen.findByRole('link', { name: 'react-learning' })
+
+    await user.click(screen.getByRole('button', { name: 'Load more repositories' }))
+
+    expect(await screen.findByRole('link', { name: 'second-page-repo' })).toBeInTheDocument()
+    expect(screen.getByText('End of repositories')).toBeInTheDocument()
   })
 
   it('renders the route error fallback when the user request fails', async () => {
