@@ -17,6 +17,9 @@ export default function Navbar() {
             <span className="badge">{count}</span>
           )}
         </NavLink>
+        <NavLink to="/settings" className={({ isActive }) => isActive ? 'active' : ''}>
+          Settings
+        </NavLink>
       </div>
     </nav>
   )
