@@ -6,13 +6,12 @@ import TokenInput from '../components/TokenInput'
 import { useDebounce } from '../hooks/useDebounce'
 import { useSearchPageParams } from '../hooks/useSearchPageParams'
 import { useSearchUsers } from '../hooks/useSearchUsers'
+import { useAuthStore } from '../store/authStore'
 
-interface SearchPageProps {
-  token: string
-  onTokenChange: (value: string) => void
-}
+export default function SearchPage() {
+  const token = useAuthStore(s => s.token)
+  const setToken = useAuthStore(s => s.setToken)
 
-export default function SearchPage({ token, onTokenChange }: SearchPageProps) {
   const { query, setQuery } = useSearchPageParams()
   const queryClient = useQueryClient()
 
@@ -25,7 +24,7 @@ export default function SearchPage({ token, onTokenChange }: SearchPageProps) {
     isFetchingNextPage,
     isLoading,
     error,
-  } = useSearchUsers(debouncedQuery, token || undefined)
+  } = useSearchUsers(debouncedQuery)
   const users = data?.pages.flatMap(page => page.items) ?? []
   const searchResultsStatus = getSearchResultsStatus({
     query: debouncedQuery.trim(),
@@ -44,7 +43,7 @@ export default function SearchPage({ token, onTokenChange }: SearchPageProps) {
   }
 
   function handleTokenChange(value: string) {
-    onTokenChange(value)
+    setToken(value)
     queryClient.cancelQueries({ queryKey: ['search-users'] })
     queryClient.cancelQueries({ queryKey: ['github-user'] })
     queryClient.removeQueries({ queryKey: ['search-users'] })

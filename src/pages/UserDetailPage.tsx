@@ -1,13 +1,13 @@
 import { useParams } from 'react-router-dom'
 import { useSuspenseGitHubUser } from '../hooks/useGitHubUser'
 
-export default function UserDetailPage({ token }: { token: string }) {
+export default function UserDetailPage() {
   const { login } = useParams<{ login: string }>()
 
   if (!login)
     throw new Error('Missing GitHub login')
 
-  const { data: user } = useSuspenseGitHubUser(login, token)
+  const { data: user } = useSuspenseGitHubUser(login)
 
   return (
     <div className="page user-detail">

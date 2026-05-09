@@ -1,6 +1,6 @@
 import { QueryClient, QueryClientProvider, QueryErrorResetBoundary } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
-import { Suspense, useState } from 'react'
+import { Suspense } from 'react'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import ErrorBoundary from './components/ErrorBoundary'
 import Navbar from './components/Navbar'
@@ -12,7 +12,7 @@ import './App.css'
 
 const queryClient = new QueryClient()
 
-function UserDetailRoute({ token }: { token: string }) {
+function UserDetailRoute() {
   return (
     <QueryErrorResetBoundary>
       {({ reset }) => (
@@ -23,7 +23,7 @@ function UserDetailRoute({ token }: { token: string }) {
           )}
         >
           <Suspense fallback={<PageLoadingFallback label="Loading user..." />}>
-            <UserDetailPage token={token} />
+            <UserDetailPage />
           </Suspense>
         </ErrorBoundary>
       )}
@@ -32,17 +32,15 @@ function UserDetailRoute({ token }: { token: string }) {
 }
 
 export default function App() {
-  const [token, setToken] = useState('')
-
   return (
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
         <div className="app">
           <Navbar />
           <Routes>
-            <Route path="/" element={<SearchPage token={token} onTokenChange={setToken} />} />
+            <Route path="/" element={<SearchPage />} />
             <Route path="/favorites" element={<FavoritesPage />} />
-            <Route path="/user/:login" element={<UserDetailRoute token={token} />} />
+            <Route path="/user/:login" element={<UserDetailRoute />} />
           </Routes>
         </div>
       </BrowserRouter>
