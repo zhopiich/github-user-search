@@ -9,6 +9,7 @@ import FavoritesPage from './pages/FavoritesPage'
 import SearchPage from './pages/SearchPage'
 import UserDetailPage from './pages/UserDetailPage'
 import UserOverviewRoute from './pages/UserOverviewRoute'
+import UserReposRoute from './pages/UserReposRoute'
 import './App.css'
 
 const queryClient = new QueryClient()
@@ -43,6 +44,7 @@ export default function App() {
             <Route path="/favorites" element={<FavoritesPage />} />
             <Route path="/user/:login" element={<UserDetailRoute />}>
               <Route index element={<UserOverviewRoute />} />
+              <Route path="repos" element={<UserReposRoute />} />
             </Route>
           </Routes>
         </div>
