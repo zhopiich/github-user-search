@@ -5,13 +5,14 @@ import { githubFetch } from '../lib/githubFetch'
 const SEARCH_USERS_PER_PAGE = 30
 const GITHUB_SEARCH_RESULT_LIMIT = 1000
 
-export function useSearchUsers(query: string, token?: string) {
+export function useSearchUsers(query: string) {
   return useInfiniteQuery({
     queryKey: ['search-users', query],
-    queryFn: ({ pageParam }) => githubFetch<SearchResult>(
-      `https://api.github.com/search/users?q=${encodeURIComponent(query)}&per_page=${SEARCH_USERS_PER_PAGE}&page=${pageParam}`,
-      token,
-    ),
+    queryFn: ({ pageParam }) => githubFetch().get<SearchResult>('/search/users', { params: {
+      q: encodeURIComponent(query),
+      per_page: SEARCH_USERS_PER_PAGE,
+      page: pageParam,
+    } }),
     initialPageParam: 1,
     getNextPageParam: (lastPage, allPages) => {
       const loadedCount = allPages.reduce((count, page) => count + page.items.length, 0)
