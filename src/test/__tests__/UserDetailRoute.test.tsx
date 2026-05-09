@@ -12,6 +12,7 @@ function renderUserRoute(path = '/user/alice') {
 
 afterEach(() => {
   vi.restoreAllMocks()
+  server.resetHandlers()
   window.history.pushState({}, '', '/')
 })
 
