@@ -30,6 +30,15 @@ describe('user detail route boundaries', () => {
     expect(screen.getByText('@alice')).toBeInTheDocument()
   })
 
+  it('renders overview content for the user detail index route', async () => {
+    renderUserRoute('/user/alice')
+
+    expect(await screen.findByRole('heading', { name: 'Alice' })).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: 'Overview' })).toHaveClass('active')
+    expect(screen.getByRole('link', { name: 'Repos' })).toHaveAttribute('href', '/user/alice/repos')
+    expect(screen.getByText('No bio provided.')).toBeInTheDocument()
+  })
+
   it('renders the route error fallback when the user request fails', async () => {
     vi.spyOn(console, 'error').mockImplementation(() => {})
     server.use(
