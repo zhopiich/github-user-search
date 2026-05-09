@@ -1,4 +1,5 @@
 import type { GitHubUser } from '../types/github'
+import { uniqueFavorites } from './favorites'
 
 type ParseFavoriteUsersResult
   = | { ok: true, favorites: GitHubUser[] }
@@ -15,17 +16,6 @@ function isGitHubUser(value: unknown): value is GitHubUser {
     && typeof candidate.avatar_url === 'string'
     && typeof candidate.html_url === 'string'
   )
-}
-
-function uniqueFavorites(favorites: GitHubUser[]) {
-  const seen = new Set<number>()
-  return favorites.filter((favorite) => {
-    if (seen.has(favorite.id))
-      return false
-
-    seen.add(favorite.id)
-    return true
-  })
 }
 
 export function parseFavoriteUsers(value: string): ParseFavoriteUsersResult {
