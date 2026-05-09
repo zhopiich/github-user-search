@@ -61,6 +61,22 @@ describe('user detail route boundaries', () => {
     expect(screen.getByText('End of repositories')).toBeInTheDocument()
   })
 
+  it('keeps the profile shell visible when the repos child route fails', async () => {
+    vi.spyOn(console, 'error').mockImplementation(() => {})
+    server.use(
+      http.get('https://api.github.com/users/:login/repos', () => {
+        return HttpResponse.json({ message: 'Server error' }, { status: 500 })
+      }),
+    )
+
+    renderUserRoute('/user/repo-fail/repos')
+
+    expect(await screen.findByRole('heading', { name: 'Alice' })).toBeInTheDocument()
+    expect(await screen.findByRole('alert')).toHaveTextContent('HTTP 500')
+    expect(screen.getByRole('link', { name: 'Overview' })).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: 'Repos' })).toHaveClass('active')
+  })
+
   it('renders the route error fallback when the user request fails', async () => {
     vi.spyOn(console, 'error').mockImplementation(() => {})
     server.use(
