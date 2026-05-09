@@ -161,14 +161,12 @@
   width: 100%;
   max-width: 900px;
 
-  button {
+  a {
     padding: 8px 20px;
     font-size: 14px;
-    border: none;
     border-bottom: 2px solid transparent;
-    background: none;
     color: var(--text);
-    cursor: pointer;
+    text-decoration: none;
     display: flex;
     align-items: center;
     gap: 6px;
@@ -184,6 +182,11 @@
       color: var(--text-h);
     }
   }
+}
+
+.user-tab-panel {
+  width: 100%;
+  max-width: 900px;
 }
 
 .badge {
