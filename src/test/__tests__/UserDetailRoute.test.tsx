@@ -40,7 +40,7 @@ describe('user detail route boundaries', () => {
 
     renderUserRoute('/user/fail')
 
-    expect(await screen.findByRole('alert')).toHaveTextContent('GitHub API error: 500')
+    expect(await screen.findByRole('alert')).toHaveTextContent('HTTP 500: Internal Server ErrorTry again')
     expect(screen.getByRole('button', { name: 'Try again' })).toBeInTheDocument()
   })
 
