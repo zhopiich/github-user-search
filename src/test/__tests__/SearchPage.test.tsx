@@ -35,7 +35,7 @@ function renderSearchPage(path = '/') {
   window.history.replaceState(null, '', path)
 
   render(
-    <SearchPage token="" onTokenChange={() => {}} />,
+    <SearchPage />,
     { wrapper: TestProviders },
   )
 }
