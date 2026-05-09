@@ -20,6 +20,42 @@ const mockUsers = [
   },
 ]
 
+const mockRepos = [
+  {
+    id: 101,
+    name: 'react-learning',
+    full_name: 'alice/react-learning',
+    html_url: 'https://github.com/alice/react-learning',
+    description: 'Learning React through GitHub APIs',
+    language: 'TypeScript',
+    stargazers_count: 12,
+    forks_count: 3,
+    updated_at: '2026-05-01T12:00:00Z',
+  },
+  {
+    id: 102,
+    name: 'router-notes',
+    full_name: 'alice/router-notes',
+    html_url: 'https://github.com/alice/router-notes',
+    description: null,
+    language: 'JavaScript',
+    stargazers_count: 5,
+    forks_count: 1,
+    updated_at: '2026-04-20T12:00:00Z',
+  },
+  {
+    id: 103,
+    name: 'second-page-repo',
+    full_name: 'alice/second-page-repo',
+    html_url: 'https://github.com/alice/second-page-repo',
+    description: 'Second page repository',
+    language: null,
+    stargazers_count: 1,
+    forks_count: 0,
+    updated_at: '2026-04-01T12:00:00Z',
+  },
+]
+
 export const handlers = [
   http.get('https://api.github.com/search/users', ({ request }) => {
     const q = new URL(request.url).searchParams.get('q')
@@ -46,5 +82,9 @@ export const handlers = [
       blog: null,
       location: null,
     })
+  }),
+  http.get('https://api.github.com/users/:login/repos', ({ request }) => {
+    const page = new URL(request.url).searchParams.get('page')
+    return HttpResponse.json(page === '1' ? mockRepos.slice(0, 2) : mockRepos.slice(2))
   }),
 ]
