@@ -15,6 +15,18 @@ export interface GitHubUserDetail extends GitHubUser {
   location: string | null
 }
 
+export interface GitHubRepository {
+  id: number
+  name: string
+  full_name: string
+  html_url: string
+  description: string | null
+  language: string | null
+  stargazers_count: number
+  forks_count: number
+  updated_at: string
+}
+
 export interface SearchResult {
   total_count: number
   items: GitHubUser[]
