@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { shouldLoadMoreGridPage } from '../../components/VirtualUserGrid.utils'
+import { shouldLoadMoreGridPage } from '../../features/search/components/VirtualUserGrid.utils'
 
 describe('virtualUserGrid', () => {
   it('does not load the next page before the user scrolls into the grid', () => {
