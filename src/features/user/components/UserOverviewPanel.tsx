@@ -1,4 +1,4 @@
-import type { GitHubUserDetail } from '../types/github'
+import type { GitHubUserDetail } from '../../../types/github'
 
 interface UserOverviewPanelProps {
   user: GitHubUserDetail

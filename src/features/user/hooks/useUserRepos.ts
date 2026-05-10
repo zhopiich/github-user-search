@@ -1,6 +1,6 @@
-import type { GitHubRepository } from '../types/github'
+import type { GitHubRepository } from '../../../types/github'
 import { useInfiniteQuery, useSuspenseInfiniteQuery } from '@tanstack/react-query'
-import { githubFetch } from '../lib/githubFetch'
+import { githubFetch } from '../../../lib/githubFetch'
 
 const USER_REPOS_PER_PAGE = 2
 

@@ -1,6 +1,6 @@
-import type { SearchResult } from '../types/github'
+import type { SearchResult } from '../../../types/github'
 import { useInfiniteQuery } from '@tanstack/react-query'
-import { githubFetch } from '../lib/githubFetch'
+import { githubFetch } from '../../../lib/githubFetch'
 
 const SEARCH_USERS_PER_PAGE = 30
 const GITHUB_SEARCH_RESULT_LIMIT = 1000

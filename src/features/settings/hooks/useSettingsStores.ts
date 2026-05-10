@@ -1,6 +1,6 @@
 import { useShallow } from 'zustand/react/shallow'
-import { useAuthStore } from '../store/authStore'
-import { useFavoritesStore } from '../store/favoritesStore'
+import { useAuthStore } from '../../../store/authStore'
+import { useFavoritesStore } from '../../../store/favoritesStore'
 
 export function useTokenSettings() {
   return useAuthStore(useShallow(s => ({

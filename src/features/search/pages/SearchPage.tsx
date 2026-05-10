@@ -1,12 +1,12 @@
 import { useQueryClient } from '@tanstack/react-query'
+import { useDebounce } from '../../../hooks/useDebounce'
+import { useAuthStore } from '../../../store/authStore'
 import SearchBar from '../components/SearchBar'
 import SearchResults from '../components/SearchResults'
 import { getSearchResultsData, getSearchResultsStatus } from '../components/SearchResults.state'
 import TokenInput from '../components/TokenInput'
-import { useDebounce } from '../hooks/useDebounce'
 import { useSearchPageParams } from '../hooks/useSearchPageParams'
 import { useSearchUsers } from '../hooks/useSearchUsers'
-import { useAuthStore } from '../store/authStore'
 
 export default function SearchPage() {
   const token = useAuthStore(s => s.token)

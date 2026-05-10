@@ -1,4 +1,4 @@
-import type { GitHubRepository } from '../types/github'
+import type { GitHubRepository } from '../../../types/github'
 
 interface UserReposPanelProps {
   repos: GitHubRepository[]
