@@ -5,6 +5,7 @@ const user1 = { id: 1, login: 'alice', avatar_url: '', html_url: '' }
 const user2 = { id: 2, login: 'bob', avatar_url: '', html_url: '' }
 
 beforeEach(() => {
+  localStorage.clear()
   useFavoritesStore.setState({ favorites: [] })
 })
 
@@ -35,5 +36,24 @@ describe('favoritesStore', () => {
     useFavoritesStore.getState().addFavorite(user1)
     useFavoritesStore.getState().removeFavorite(999)
     expect(useFavoritesStore.getState().favorites).toHaveLength(1)
+  })
+
+  it('clearFavorites empties favorites', () => {
+    useFavoritesStore.getState().addFavorite(user1)
+    useFavoritesStore.getState().clearFavorites()
+
+    expect(useFavoritesStore.getState().favorites).toEqual([])
+  })
+
+  it('replaceFavorites de-duplicates by id', () => {
+    useFavoritesStore.getState().replaceFavorites([user1, user1, user2])
+
+    expect(useFavoritesStore.getState().favorites).toEqual([user1, user2])
+  })
+
+  it('exportFavorites returns formatted JSON', () => {
+    useFavoritesStore.getState().replaceFavorites([user1])
+
+    expect(useFavoritesStore.getState().exportFavorites()).toBe(JSON.stringify([user1], null, 2))
   })
 })
