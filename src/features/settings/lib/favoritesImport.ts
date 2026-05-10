@@ -1,5 +1,5 @@
-import type { GitHubUser } from '../types/github'
-import { uniqueFavorites } from './favorites'
+import type { GitHubUser } from '../../../types/github'
+import { uniqueFavorites } from '../../../lib/favorites'
 
 type ParseFavoriteUsersResult
   = | { ok: true, favorites: GitHubUser[] }
