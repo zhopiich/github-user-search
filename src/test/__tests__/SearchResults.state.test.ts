@@ -1,9 +1,9 @@
-import type { GitHubUser } from '../../types/github'
+import type { GitHubUser } from '@/types/github'
 import { describe, expect, it } from 'vitest'
 import {
   getSearchResultsData,
   getSearchResultsStatus,
-} from '../../features/search/components/SearchResults.state'
+} from '@/features/search/components/SearchResults.state'
 
 const users: GitHubUser[] = [{
   id: 1,

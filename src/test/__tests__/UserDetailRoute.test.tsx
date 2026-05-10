@@ -2,7 +2,7 @@ import { render, screen, waitForElementToBeRemoved } from '@testing-library/reac
 import userEvent from '@testing-library/user-event'
 import { http, HttpResponse } from 'msw'
 import { afterEach, describe, expect, it, vi } from 'vitest'
-import App from '../../App'
+import App from '@/App'
 import { server } from '../mocks/server'
 
 function renderUserRoute(path = '/user/alice') {

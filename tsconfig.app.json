@@ -9,6 +9,9 @@
 
     /* Bundler mode */
     "moduleResolution": "bundler",
+    "paths": {
+      "@/*": ["./src/*"]
+    },
     "types": ["vite/client", "vitest/globals", "@testing-library/jest-dom"],
     "allowImportingTsExtensions": true,
 

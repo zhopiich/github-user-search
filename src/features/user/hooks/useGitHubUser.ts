@@ -1,6 +1,6 @@
-import type { GitHubUserDetail } from '../../../types/github'
+import type { GitHubUserDetail } from '@/types/github'
 import { useQuery, useSuspenseQuery } from '@tanstack/react-query'
-import { githubFetch } from '../../../lib/githubFetch'
+import { githubFetch } from '@/lib/githubFetch'
 
 function githubUserQueryOptions(login: string) {
   return {
