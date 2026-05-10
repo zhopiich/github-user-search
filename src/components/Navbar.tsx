@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom'
-import { useFavoritesStore } from '../store/favoritesStore'
+import { useFavoritesStore } from '@/store/favoritesStore'
 
 export default function Navbar() {
   const count = useFavoritesStore(s => s.favorites.length)

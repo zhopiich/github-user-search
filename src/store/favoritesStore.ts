@@ -1,7 +1,7 @@
-import type { GitHubUser } from '../types/github'
+import type { GitHubUser } from '@/types/github'
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
-import { uniqueFavorites } from '../lib/favorites'
+import { uniqueFavorites } from '@/lib/favorites'
 
 interface FavoritesStore {
   favorites: GitHubUser[]

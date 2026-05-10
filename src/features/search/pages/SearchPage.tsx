@@ -1,6 +1,6 @@
 import { useQueryClient } from '@tanstack/react-query'
-import { useDebounce } from '../../../hooks/useDebounce'
-import { useAuthStore } from '../../../store/authStore'
+import { useDebounce } from '@/hooks/useDebounce'
+import { useAuthStore } from '@/store/authStore'
 import SearchBar from '../components/SearchBar'
 import SearchResults from '../components/SearchResults'
 import { getSearchResultsData, getSearchResultsStatus } from '../components/SearchResults.state'

@@ -4,10 +4,10 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { BrowserRouter } from 'react-router-dom'
 import { describe, expect, it, vi } from 'vitest'
-import SearchResults from '../../features/search/components/SearchResults'
-import SearchPage from '../../features/search/pages/SearchPage'
+import SearchResults from '@/features/search/components/SearchResults'
+import SearchPage from '@/features/search/pages/SearchPage'
 
-vi.mock('../../features/search/components/VirtualUserGrid', () => ({
+vi.mock('@/features/search/components/VirtualUserGrid', () => ({
   default: ({ users }: { users: Array<{ login: string }> }) => (
     <div>
       {users.map(user => (

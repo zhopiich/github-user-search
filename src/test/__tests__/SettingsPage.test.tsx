@@ -1,9 +1,9 @@
 import { fireEvent, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { beforeEach, describe, expect, it } from 'vitest'
-import App from '../../App'
-import { useAuthStore } from '../../store/authStore'
-import { useFavoritesStore } from '../../store/favoritesStore'
+import App from '@/App'
+import { useAuthStore } from '@/store/authStore'
+import { useFavoritesStore } from '@/store/favoritesStore'
 
 function renderSettingsRoute() {
   window.history.pushState({}, '', '/settings')

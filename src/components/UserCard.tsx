@@ -1,7 +1,7 @@
-import type { GitHubUser } from '../types/github'
+import type { GitHubUser } from '@/types/github'
 import { memo } from 'react'
 import { Link } from 'react-router-dom'
-import { useFavoritesStore } from '../store/favoritesStore'
+import { useFavoritesStore } from '@/store/favoritesStore'
 
 interface Props {
   user: GitHubUser

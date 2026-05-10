@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it } from 'vitest'
-import { useAuthStore } from '../../store/authStore'
+import { useAuthStore } from '@/store/authStore'
 
 const AUTH_STORAGE_KEY = 'github-user-search:auth'
 

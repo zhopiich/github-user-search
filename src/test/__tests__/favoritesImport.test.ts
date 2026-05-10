@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { parseFavoriteUsers } from '../../features/settings/lib/favoritesImport'
+import { parseFavoriteUsers } from '@/features/settings/lib/favoritesImport'
 
 describe('parseFavoriteUsers', () => {
   it('rejects invalid JSON', () => {

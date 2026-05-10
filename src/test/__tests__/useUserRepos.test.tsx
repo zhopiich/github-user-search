@@ -3,7 +3,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { renderHook, waitFor } from '@testing-library/react'
 import { http, HttpResponse } from 'msw'
 import { describe, expect, it } from 'vitest'
-import { useUserRepos } from '../../features/user/hooks/useUserRepos'
+import { useUserRepos } from '@/features/user/hooks/useUserRepos'
 import { server } from '../mocks/server'
 
 function makeWrapper() {

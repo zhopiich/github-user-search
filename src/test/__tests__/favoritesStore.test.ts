@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it } from 'vitest'
-import { useFavoritesStore } from '../../store/favoritesStore'
+import { useFavoritesStore } from '@/store/favoritesStore'
 
 const user1 = { id: 1, login: 'alice', avatar_url: '', html_url: '' }
 const user2 = { id: 2, login: 'bob', avatar_url: '', html_url: '' }

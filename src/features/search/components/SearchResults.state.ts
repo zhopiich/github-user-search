@@ -1,4 +1,4 @@
-import type { GitHubUser } from '../../../types/github'
+import type { GitHubUser } from '@/types/github'
 
 export type SearchResultsStatus = 'idle' | 'loading' | 'error' | 'empty' | 'success'
 

@@ -1,7 +1,7 @@
-import type { GitHubUser } from '../../../types/github'
+import type { GitHubUser } from '@/types/github'
 import { useWindowVirtualizer } from '@tanstack/react-virtual'
 import { useEffect, useRef, useState } from 'react'
-import UserCard from '../../../components/UserCard'
+import UserCard from '@/components/UserCard'
 import { shouldLoadMoreGridPage } from './VirtualUserGrid.utils'
 
 const GRID_MIN_COLUMN_WIDTH = 160

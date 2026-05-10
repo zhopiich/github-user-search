@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import { setGithubFetch } from '../lib/githubFetch'
+import { setGithubFetch } from '@/lib/githubFetch'
 
 const AUTH_STORAGE_KEY = 'github-user-search:auth'
 
