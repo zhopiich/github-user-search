@@ -1,8 +1,8 @@
 import { QueryErrorResetBoundary } from '@tanstack/react-query'
 import { Suspense } from 'react'
 import { useParams } from 'react-router-dom'
-import ErrorBoundary from '../components/ErrorBoundary'
-import { PageErrorFallback, PageLoadingFallback } from '../components/RouteFallbacks'
+import ErrorBoundary from '../../../components/ErrorBoundary'
+import { PageErrorFallback, PageLoadingFallback } from '../../../components/RouteFallbacks'
 import UserReposPanel from '../components/UserReposPanel'
 import { useSuspenseUserRepos } from '../hooks/useUserRepos'
 
