@@ -25,30 +25,47 @@ beforeEach(() => {
 })
 
 describe('favorites page notes', () => {
-  it('saves a note for a favorite user', async () => {
+  it('opens the note editor only after add note is clicked', async () => {
     const user = userEvent.setup()
     useFavoritesStore.getState().replaceFavorites([alice])
     renderFavoritesRoute()
 
+    expect(screen.queryByLabelText('Note for alice')).not.toBeInTheDocument()
+
+    await user.click(screen.getByRole('button', { name: 'Add note for alice' }))
+
+    expect(screen.getByLabelText('Note for alice')).toBeInTheDocument()
+  })
+
+  it('saves a note for a favorite user and returns to summary view', async () => {
+    const user = userEvent.setup()
+    useFavoritesStore.getState().replaceFavorites([alice])
+    renderFavoritesRoute()
+
+    await user.click(screen.getByRole('button', { name: 'Add note for alice' }))
     await user.type(screen.getByLabelText('Note for alice'), 'Helpful React profile')
     await user.click(screen.getByRole('button', { name: 'Save note for alice' }))
 
     expect(useFavoriteNotesStore.getState().notesByUserId[1].body).toBe('Helpful React profile')
-    expect(screen.getByText('Saved note')).toBeInTheDocument()
+    expect(screen.queryByLabelText('Note for alice')).not.toBeInTheDocument()
+    expect(screen.getByText('Helpful React profile')).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Edit note for alice' })).toBeInTheDocument()
   })
 
-  it('cancels a note edit and restores the saved value', async () => {
+  it('cancels a note edit and returns to summary view', async () => {
     const user = userEvent.setup()
     useFavoritesStore.getState().replaceFavorites([alice])
     useFavoriteNotesStore.getState().setNote(1, 'Original note')
     renderFavoritesRoute()
 
+    await user.click(screen.getByRole('button', { name: 'Edit note for alice' }))
     const textarea = screen.getByLabelText('Note for alice')
     await user.clear(textarea)
     await user.type(textarea, 'Draft note')
     await user.click(screen.getByRole('button', { name: 'Cancel note edit for alice' }))
 
-    expect(screen.getByLabelText('Note for alice')).toHaveValue('Original note')
+    expect(screen.queryByLabelText('Note for alice')).not.toBeInTheDocument()
+    expect(screen.getByText('Original note')).toBeInTheDocument()
     expect(useFavoriteNotesStore.getState().notesByUserId[1].body).toBe('Original note')
   })
 
@@ -58,10 +75,12 @@ describe('favorites page notes', () => {
     useFavoriteNotesStore.getState().setNote(1, 'Remove me')
     renderFavoritesRoute()
 
+    await user.click(screen.getByRole('button', { name: 'Edit note for alice' }))
     await user.clear(screen.getByLabelText('Note for alice'))
     await user.click(screen.getByRole('button', { name: 'Save note for alice' }))
 
     expect(useFavoriteNotesStore.getState().notesByUserId[1]).toBeUndefined()
-    expect(screen.getByText('No saved note')).toBeInTheDocument()
+    expect(screen.queryByLabelText('Note for alice')).not.toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Add note for alice' })).toBeInTheDocument()
   })
 })

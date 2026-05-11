@@ -320,7 +320,7 @@
 
 .status {
   color: var(--text);
-  font-size: 15px;
+  font-size: 0.8rem;
   margin: 0;
 }
 
@@ -409,7 +409,8 @@
 .favorite-note-editor {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  align-items: flex-start;
+  gap: 6px;
 
   label {
     display: flex;
@@ -434,6 +435,37 @@
     &:focus {
       border-color: var(--accent);
     }
+  }
+}
+
+.favorite-note-summary,
+.favorite-note-empty {
+  width: 100%;
+  box-sizing: border-box;
+  margin: 0;
+  overflow: hidden;
+  color: var(--text);
+  font-size: 13px;
+  line-height: 1.4;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.favorite-note-empty {
+  color: var(--text);
+}
+
+.favorite-note-toggle {
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: var(--accent);
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
   }
 }
 

@@ -6,20 +6,52 @@ interface FavoriteNoteEditorProps {
   login: string
 }
 
+function formatUpdatedAt(value: string) {
+  return new Intl.DateTimeFormat('en', {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+    timeZone: 'UTC',
+  }).format(new Date(value))
+}
+
 export default function FavoriteNoteEditor({ userId, login }: FavoriteNoteEditorProps) {
   const note = useFavoriteNotesStore(s => s.notesByUserId[userId])
   const setNote = useFavoriteNotesStore(s => s.setNote)
   const [draft, setDraft] = useState(note?.body ?? '')
-  const [savedMessage, setSavedMessage] = useState('')
+  const [isEditing, setIsEditing] = useState(false)
+
+  function handleOpenEditor() {
+    setDraft(note?.body ?? '')
+    setIsEditing(true)
+  }
 
   function handleSave() {
     setNote(userId, draft)
-    setSavedMessage(draft.trim() ? 'Saved note' : 'No saved note')
+    setIsEditing(false)
   }
 
   function handleCancel() {
     setDraft(note?.body ?? '')
-    setSavedMessage('')
+    setIsEditing(false)
+  }
+
+  if (!isEditing) {
+    return (
+      <div className="favorite-note-editor">
+        {note
+          ? <p className="favorite-note-summary">{note.body}</p>
+          : <p className="favorite-note-empty">No note</p>}
+        <button
+          type="button"
+          className="favorite-note-toggle"
+          aria-label={note ? `Edit note for ${login}` : `Add note for ${login}`}
+          onClick={handleOpenEditor}
+        >
+          {note ? 'Edit' : 'Add note'}
+        </button>
+      </div>
+    )
   }
 
   return (
@@ -57,10 +89,9 @@ export default function FavoriteNoteEditor({ userId, login }: FavoriteNoteEditor
         <p className="status">
           Updated
           {' '}
-          <time dateTime={note.updatedAt}>{note.updatedAt}</time>
+          <time dateTime={note.updatedAt}>{formatUpdatedAt(note.updatedAt)}</time>
         </p>
       )}
-      {savedMessage && <p className="status">{savedMessage}</p>}
     </div>
   )
 }
