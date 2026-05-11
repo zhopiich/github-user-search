@@ -3,35 +3,24 @@ import { Suspense } from 'react'
 import { useParams } from 'react-router-dom'
 import ErrorBoundary from '@/components/ErrorBoundary'
 import { PageErrorFallback, PageLoadingFallback } from '@/components/RouteFallbacks'
-import UserReposPanel from '../components/UserReposPanel'
-import { useSuspenseUserRepos } from '../hooks/useUserRepos'
+import RepositoryDetailPanel from '../components/RepositoryDetailPanel'
+import { useSuspenseGitHubRepository } from '../hooks/useGitHubRepository'
 
-function UserReposContent() {
-  const { login } = useParams<{ login: string }>()
+function UserRepoDetailContent() {
+  const { login, repoName } = useParams<{ login: string, repoName: string }>()
 
   if (!login)
     throw new Error('Missing GitHub login')
+  if (!repoName)
+    throw new Error('Missing GitHub repository name')
 
-  const {
-    data,
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
-  } = useSuspenseUserRepos(login)
-  const repos = data.pages.flat()
+  const decodedRepoName = decodeURIComponent(repoName)
+  const { data: repository } = useSuspenseGitHubRepository(login, decodedRepoName)
 
-  return (
-    <UserReposPanel
-      login={login}
-      repos={repos}
-      hasNextPage={hasNextPage}
-      isFetchingNextPage={isFetchingNextPage}
-      onLoadMore={fetchNextPage}
-    />
-  )
+  return <RepositoryDetailPanel repository={repository} />
 }
 
-export default function UserReposRoute() {
+export default function UserRepoDetailRoute() {
   return (
     <QueryErrorResetBoundary>
       {({ reset }) => (
@@ -41,8 +30,8 @@ export default function UserReposRoute() {
             <PageErrorFallback error={error} onRetry={resetErrorBoundary} />
           )}
         >
-          <Suspense fallback={<PageLoadingFallback label="Loading repositories..." />}>
-            <UserReposContent />
+          <Suspense fallback={<PageLoadingFallback label="Loading repository..." />}>
+            <UserRepoDetailContent />
           </Suspense>
         </ErrorBoundary>
       )}

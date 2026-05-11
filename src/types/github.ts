@@ -25,6 +25,8 @@ export interface GitHubRepository {
   stargazers_count: number
   forks_count: number
   updated_at: string
+  open_issues_count: number
+  default_branch: string
 }
 
 export interface SearchResult {

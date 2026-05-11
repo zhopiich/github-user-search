@@ -1,6 +1,8 @@
 import type { GitHubRepository } from '@/types/github'
+import { Link } from 'react-router-dom'
 
 interface UserReposPanelProps {
+  login: string
   repos: GitHubRepository[]
   hasNextPage: boolean
   isFetchingNextPage: boolean
@@ -16,6 +18,7 @@ function formatUpdatedAt(value: string) {
 }
 
 export default function UserReposPanel({
+  login,
   repos,
   hasNextPage,
   isFetchingNextPage,
@@ -33,7 +36,7 @@ export default function UserReposPanel({
       <ul>
         {repos.map(repo => (
           <li key={repo.id} className="repo-list-item">
-            <a href={repo.html_url} target="_blank" rel="noopener noreferrer">{repo.name}</a>
+            <Link to={`/user/${login}/repos/${encodeURIComponent(repo.name)}`}>{repo.name}</Link>
             {repo.description && <p>{repo.description}</p>}
             <div className="repo-meta">
               {repo.language && <span>{repo.language}</span>}

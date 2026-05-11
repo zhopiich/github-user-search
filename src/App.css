@@ -236,6 +236,38 @@
   font-size: 13px;
 }
 
+.repo-detail-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  h3 {
+    margin: 0;
+    font-size: 22px;
+  }
+
+  p {
+    margin: 8px 0 0;
+    color: var(--text);
+  }
+}
+
+.repo-detail-list {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 8px 16px;
+  margin: 0;
+
+  dt {
+    color: var(--text);
+  }
+
+  dd {
+    margin: 0;
+    color: var(--text-h);
+  }
+}
+
 .badge {
   display: inline-flex;
   align-items: center;

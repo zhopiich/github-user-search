@@ -31,6 +31,8 @@ const mockRepos = [
     stargazers_count: 12,
     forks_count: 3,
     updated_at: '2026-05-01T12:00:00Z',
+    open_issues_count: 2,
+    default_branch: 'main',
   },
   {
     id: 102,
@@ -42,6 +44,8 @@ const mockRepos = [
     stargazers_count: 5,
     forks_count: 1,
     updated_at: '2026-04-20T12:00:00Z',
+    open_issues_count: 2,
+    default_branch: 'main',
   },
   {
     id: 103,
@@ -53,6 +57,8 @@ const mockRepos = [
     stargazers_count: 1,
     forks_count: 0,
     updated_at: '2026-04-01T12:00:00Z',
+    open_issues_count: 2,
+    default_branch: 'main',
   },
 ]
 
@@ -82,6 +88,16 @@ export const handlers = [
       blog: null,
       location: null,
     })
+  }),
+  http.get('https://api.github.com/repos/:owner/:repo', ({ params }) => {
+    const repo = mockRepos.find(item =>
+      item.full_name === `${String(params.owner)}/${String(params.repo)}`,
+    )
+
+    if (!repo)
+      return HttpResponse.json({ message: 'Not Found' }, { status: 404 })
+
+    return HttpResponse.json(repo)
   }),
   http.get('https://api.github.com/users/:login/repos', ({ request }) => {
     const page = new URL(request.url).searchParams.get('page')
