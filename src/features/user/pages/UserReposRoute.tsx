@@ -22,6 +22,7 @@ function UserReposContent() {
 
   return (
     <UserReposPanel
+      login={login}
       repos={repos}
       hasNextPage={hasNextPage}
       isFetchingNextPage={isFetchingNextPage}

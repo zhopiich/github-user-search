@@ -50,6 +50,15 @@ describe('user detail route boundaries', () => {
     expect(screen.getByText('TypeScript')).toBeInTheDocument()
   })
 
+  it('links repository list items to repository detail routes', async () => {
+    renderUserRoute('/user/alice/repos')
+
+    expect(await screen.findByRole('link', { name: 'react-learning' })).toHaveAttribute(
+      'href',
+      '/user/alice/repos/react-learning',
+    )
+  })
+
   it('loads the next repository page from the repos child route', async () => {
     const user = userEvent.setup()
     renderUserRoute('/user/alice/repos')
