@@ -3,9 +3,10 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { BrowserRouter } from 'react-router-dom'
-import { describe, expect, it, vi } from 'vitest'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import SearchResults from '@/features/search/components/SearchResults'
 import SearchPage from '@/features/search/pages/SearchPage'
+import { useSearchHistoryStore } from '@/features/search/stores/searchHistoryStore'
 
 vi.mock('@/features/search/components/VirtualUserGrid', () => ({
   default: ({ users }: { users: Array<{ login: string }> }) => (
@@ -39,6 +40,13 @@ function renderSearchPage(path = '/') {
     { wrapper: TestProviders },
   )
 }
+
+beforeEach(() => {
+  useSearchHistoryStore.setState({
+    recentSearches: [],
+    rememberSearchHistory: false,
+  })
+})
 
 describe('search page', () => {
   it('initializes the search input from the q URL param', async () => {
@@ -80,6 +88,42 @@ describe('search page', () => {
     renderSearchPage('/?q=react')
 
     expect(await screen.findByText('page-one-user-10')).toBeInTheDocument()
+  })
+
+  it('adds successful searches to recent searches', async () => {
+    const user = userEvent.setup()
+    renderSearchPage()
+
+    await user.type(screen.getByLabelText('Search users'), 'alice')
+
+    expect(await screen.findByRole('button', { name: 'Search alice again' })).toBeInTheDocument()
+  })
+
+  it('uses a recent search to update the URL-backed search input', async () => {
+    const user = userEvent.setup()
+    useSearchHistoryStore.setState({
+      recentSearches: ['react'],
+      rememberSearchHistory: false,
+    })
+    renderSearchPage()
+
+    await user.click(screen.getByRole('button', { name: 'Search react again' }))
+
+    expect(screen.getByLabelText('Search users')).toHaveValue('react')
+    expect(window.location.search).toBe('?q=react')
+  })
+
+  it('clears recent searches from the search page', async () => {
+    const user = userEvent.setup()
+    useSearchHistoryStore.setState({
+      recentSearches: ['react'],
+      rememberSearchHistory: false,
+    })
+    renderSearchPage()
+
+    await user.click(screen.getByRole('button', { name: 'Clear recent searches' }))
+
+    expect(screen.queryByRole('button', { name: 'Search react again' })).not.toBeInTheDocument()
   })
 
   it('keeps current results visible while the next page is loading', () => {
