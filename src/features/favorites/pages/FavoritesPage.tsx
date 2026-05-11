@@ -2,7 +2,7 @@ import type { GitHubUser } from '@/types/github'
 import { useMemo, useState } from 'react'
 import UserCard from '@/components/UserCard'
 import { useFavoritesStore } from '@/store/favoritesStore'
-import FavoriteNoteEditor from './FavoriteNoteEditor'
+import FavoriteNoteEditor from '../components/FavoriteNoteEditor'
 
 interface FavoritesContentProps {
   favorites: GitHubUser[]
