@@ -1,5 +1,6 @@
 import { useShallow } from 'zustand/react/shallow'
 import { useAuthStore } from '@/store/authStore'
+import { useFavoriteNotesStore } from '@/store/favoriteNotesStore'
 import { useFavoritesStore } from '@/store/favoritesStore'
 
 export function useTokenSettings() {
@@ -13,9 +14,15 @@ export function useTokenSettings() {
 }
 
 export function useFavoritesDataSettings() {
-  return useFavoritesStore(useShallow(s => ({
+  const favorites = useFavoritesStore(useShallow(s => ({
     clearFavorites: s.clearFavorites,
     replaceFavorites: s.replaceFavorites,
     exportFavorites: s.exportFavorites,
   })))
+  const clearNotes = useFavoriteNotesStore(s => s.clearNotes)
+
+  return {
+    ...favorites,
+    clearNotes,
+  }
 }

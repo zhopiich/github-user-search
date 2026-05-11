@@ -16,6 +16,7 @@ export default function SettingsPage() {
     clearFavorites,
     replaceFavorites,
     exportFavorites,
+    clearNotes,
   } = useFavoritesDataSettings()
   const [showToken, setShowToken] = useState(false)
   const [favoritesJson, setFavoritesJson] = useState('')
@@ -57,6 +58,7 @@ export default function SettingsPage() {
   function handleClearFavorites() {
     clearFeedback()
     clearFavorites()
+    clearNotes()
     setFavoritesJson('')
     setMessage('Favorites cleared.')
   }
