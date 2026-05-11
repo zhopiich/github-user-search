@@ -400,6 +400,54 @@
   max-width: 900px;
 }
 
+.favorite-user-item {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.favorite-note-editor {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  label {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    color: var(--text);
+    font-size: 13px;
+  }
+
+  textarea {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 8px 10px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--bg);
+    color: var(--text-h);
+    font: inherit;
+    resize: vertical;
+    outline: none;
+
+    &:focus {
+      border-color: var(--accent);
+    }
+  }
+}
+
+.favorite-note-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+
+  button {
+    padding: 6px 10px;
+    font-size: 12px;
+  }
+}
+
 .user-card {
   position: relative;
   display: flex;
