@@ -10,6 +10,7 @@ import SearchPage from '@/features/search/pages/SearchPage'
 import SettingsPage from '@/features/settings/pages/SettingsPage'
 import UserDetailPage from '@/features/user/pages/UserDetailPage'
 import UserOverviewRoute from '@/features/user/pages/UserOverviewRoute'
+import UserRepoDetailRoute from '@/features/user/pages/UserRepoDetailRoute'
 import UserReposRoute from '@/features/user/pages/UserReposRoute'
 import { useAuthStore } from '@/store/authStore'
 import './App.css'
@@ -54,6 +55,7 @@ export default function App() {
             <Route path="/user/:login" element={<UserDetailRoute />}>
               <Route index element={<UserOverviewRoute />} />
               <Route path="repos" element={<UserReposRoute />} />
+              <Route path="repos/:repoName" element={<UserRepoDetailRoute />} />
             </Route>
           </Routes>
         </div>
