@@ -62,6 +62,28 @@ describe('user detail route boundaries', () => {
     expect(screen.getByText('End of repositories')).toBeInTheDocument()
   })
 
+  it('renders repository detail for the nested repo route', async () => {
+    renderUserRoute('/user/alice/repos/react-learning')
+
+    expect(await screen.findByRole('heading', { name: 'react-learning' })).toBeInTheDocument()
+    expect(screen.getByText('Learning React through GitHub APIs')).toBeInTheDocument()
+    expect(screen.getByText('Default branch main')).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: 'View repository on GitHub' })).toHaveAttribute(
+      'href',
+      'https://github.com/alice/react-learning',
+    )
+  })
+
+  it('keeps the profile shell visible when repository detail fails', async () => {
+    vi.spyOn(console, 'error').mockImplementation(() => {})
+
+    renderUserRoute('/user/alice/repos/missing-repo')
+
+    expect(await screen.findByRole('heading', { name: 'Alice' })).toBeInTheDocument()
+    expect(await screen.findByRole('alert')).toHaveTextContent('HTTP 404')
+    expect(screen.getByRole('link', { name: 'Repos' })).toHaveAttribute('href', '/user/alice/repos')
+  })
+
   it('keeps the profile shell visible when the repos child route fails', async () => {
     vi.spyOn(console, 'error').mockImplementation(() => {})
     server.use(
