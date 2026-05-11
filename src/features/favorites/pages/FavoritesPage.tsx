@@ -2,6 +2,7 @@ import type { GitHubUser } from '@/types/github'
 import { useMemo, useState } from 'react'
 import UserCard from '@/components/UserCard'
 import { useFavoritesStore } from '@/store/favoritesStore'
+import FavoriteNoteEditor from '../components/FavoriteNoteEditor'
 
 interface FavoritesContentProps {
   favorites: GitHubUser[]
@@ -17,7 +18,12 @@ function FavoritesContent({ favorites, filtered }: FavoritesContentProps) {
   }
   return (
     <div className="favorites-user-grid">
-      {filtered.map(user => <UserCard key={user.id} user={user} />)}
+      {filtered.map(user => (
+        <div className="favorite-user-item" key={user.id}>
+          <UserCard user={user} />
+          <FavoriteNoteEditor userId={user.id} login={user.login} />
+        </div>
+      ))}
     </div>
   )
 }

@@ -3,6 +3,7 @@ import userEvent from '@testing-library/user-event'
 import { beforeEach, describe, expect, it } from 'vitest'
 import App from '@/App'
 import { useAuthStore } from '@/store/authStore'
+import { useFavoriteNotesStore } from '@/store/favoriteNotesStore'
 import { useFavoritesStore } from '@/store/favoritesStore'
 
 function renderSettingsRoute() {
@@ -14,6 +15,7 @@ beforeEach(() => {
   localStorage.clear()
   useAuthStore.setState({ token: '', rememberToken: false })
   useFavoritesStore.setState({ favorites: [] })
+  useFavoriteNotesStore.setState({ notesByUserId: {} })
   window.history.pushState({}, '', '/')
 })
 
@@ -100,6 +102,23 @@ describe('settings page', () => {
 
     expect(useFavoritesStore.getState().favorites).toHaveLength(1)
     expect(screen.getByText('Imported 1 favorite.')).toBeInTheDocument()
+  })
+
+  it('clears favorite notes when favorites are cleared', async () => {
+    const user = userEvent.setup()
+    useFavoritesStore.getState().replaceFavorites([{
+      id: 1,
+      login: 'alice',
+      avatar_url: 'https://avatars.githubusercontent.com/alice',
+      html_url: 'https://github.com/alice',
+    }])
+    useFavoriteNotesStore.getState().setNote(1, 'Local note')
+    renderSettingsRoute()
+
+    await user.click(screen.getByRole('button', { name: 'Clear favorites' }))
+
+    expect(useFavoritesStore.getState().favorites).toEqual([])
+    expect(useFavoriteNotesStore.getState().notesByUserId).toEqual({})
   })
 
   it('hydrates remembered token when the app starts', () => {
