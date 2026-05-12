@@ -4,6 +4,7 @@ import { useShallow } from 'zustand/react/shallow'
 import { useDebounce } from '@/hooks/useDebounce'
 import { useAuthStore } from '@/store/authStore'
 import { useSearchHistoryStore } from '@/store/searchHistoryStore'
+import { useSearchNavigationStore } from '@/store/searchNavigationStore'
 import RecentSearches from '../components/RecentSearches'
 import SearchBar from '../components/SearchBar'
 import SearchResults from '../components/SearchResults'
@@ -24,6 +25,7 @@ export default function SearchPage() {
     addSearch: s.addSearch,
     clearSearches: s.clearSearches,
   })))
+  const setLastSearchQuery = useSearchNavigationStore(s => s.setLastSearchQuery)
 
   const { query, setQuery } = useSearchPageParams()
   const queryClient = useQueryClient()
@@ -56,7 +58,8 @@ export default function SearchPage() {
       return
 
     addSearch(debouncedQuery)
-  }, [addSearch, data, debouncedQuery])
+    setLastSearchQuery(debouncedQuery)
+  }, [addSearch, data, debouncedQuery, setLastSearchQuery])
 
   function handleQueryChange(value: string) {
     setQuery(value)
