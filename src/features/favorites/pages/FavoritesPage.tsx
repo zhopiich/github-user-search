@@ -3,6 +3,7 @@ import { useMemo, useState } from 'react'
 import UserCard from '@/components/UserCard'
 import { useFavoritesStore } from '@/store/favoritesStore'
 import FavoriteNoteEditor from '../components/FavoriteNoteEditor'
+import '../favorites.css'
 
 interface FavoritesContentProps {
   favorites: GitHubUser[]
@@ -45,7 +46,7 @@ export default function FavoritesPage() {
     <div className="page">
       {favorites.length > 1 && (
         <input
-          className="filter-input"
+          className="favorites-filter-input"
           type="text"
           placeholder="Filter favorites..."
           value={search}

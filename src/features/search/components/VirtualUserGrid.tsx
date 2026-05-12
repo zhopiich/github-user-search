@@ -80,7 +80,7 @@ export default function VirtualUserGrid({
   return (
     <div
       ref={gridRef}
-      className="virtual-user-grid"
+      className="search-virtual-user-grid"
       style={{ height: `${rowVirtualizer.getTotalSize()}px` }}
     >
       {virtualRows.map((virtualRow) => {
@@ -90,7 +90,7 @@ export default function VirtualUserGrid({
         return (
           <div
             key={virtualRow.key}
-            className="virtual-user-row"
+            className="search-virtual-user-row"
             data-index={virtualRow.index}
             ref={rowVirtualizer.measureElement}
             style={{

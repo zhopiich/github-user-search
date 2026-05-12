@@ -2,6 +2,7 @@ import { useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
 import { useFavoritesDataSettings, useSearchHistorySettings, useTokenSettings } from '../hooks/useSettingsStores'
 import { parseFavoriteUsers } from '../lib/favoritesImport'
+import '../settings.css'
 
 export default function SettingsPage() {
   const queryClient = useQueryClient()
