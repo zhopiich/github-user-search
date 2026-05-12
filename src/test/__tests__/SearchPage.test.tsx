@@ -7,6 +7,7 @@ import { beforeEach, describe, expect, it, vi } from 'vitest'
 import SearchResults from '@/features/search/components/SearchResults'
 import SearchPage from '@/features/search/pages/SearchPage'
 import { useSearchHistoryStore } from '@/store/searchHistoryStore'
+import { useSearchNavigationStore } from '@/store/searchNavigationStore'
 
 vi.mock('@/features/search/components/VirtualUserGrid', () => ({
   default: ({ users }: { users: Array<{ login: string }> }) => (
@@ -46,6 +47,7 @@ beforeEach(() => {
     recentSearches: [],
     rememberSearchHistory: false,
   })
+  useSearchNavigationStore.setState({ lastSearchQuery: '' })
 })
 
 describe('search page', () => {
@@ -97,6 +99,39 @@ describe('search page', () => {
     await user.type(screen.getByLabelText('Search users'), 'alice')
 
     expect(await screen.findByRole('button', { name: 'Search alice again' })).toBeInTheDocument()
+  })
+
+  it('stores the last successful search query', async () => {
+    const user = userEvent.setup()
+    renderSearchPage()
+
+    await user.type(screen.getByLabelText('Search users'), 'alice')
+
+    await screen.findByText('page-one-user-10')
+    expect(useSearchNavigationStore.getState().lastSearchQuery).toBe('alice')
+  })
+
+  it('does not store failed searches as the last successful search query', async () => {
+    const user = userEvent.setup()
+    useSearchNavigationStore.getState().setLastSearchQuery('react')
+    renderSearchPage()
+
+    await user.type(screen.getByLabelText('Search users'), 'fail')
+
+    expect(await screen.findByText('Unable to load users.')).toBeInTheDocument()
+    expect(useSearchNavigationStore.getState().lastSearchQuery).toBe('react')
+  })
+
+  it('does not clear the last successful search query when the input is cleared', async () => {
+    const user = userEvent.setup()
+    useSearchNavigationStore.getState().setLastSearchQuery('react')
+    renderSearchPage('/?q=react')
+
+    const input = screen.getByLabelText('Search users')
+    await user.clear(input)
+
+    expect(input).toHaveValue('')
+    expect(useSearchNavigationStore.getState().lastSearchQuery).toBe('react')
   })
 
   it('uses a recent search to update the URL-backed search input', async () => {
