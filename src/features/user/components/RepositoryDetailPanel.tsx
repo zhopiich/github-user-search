@@ -7,13 +7,13 @@ interface RepositoryDetailPanelProps {
 
 export default function RepositoryDetailPanel({ repository }: RepositoryDetailPanelProps) {
   return (
-    <section className="user-tab-panel repo-detail-panel" aria-label="Repository detail">
+    <section className="user-tab-panel user-repo-detail-panel" aria-label="Repository detail">
       <div>
         <h3>{repository.name}</h3>
         {repository.description && <p>{repository.description}</p>}
       </div>
 
-      <dl className="repo-detail-list">
+      <dl className="user-repo-detail-list">
         {repository.language && (
           <>
             <dt>Language</dt>
@@ -36,7 +36,7 @@ export default function RepositoryDetailPanel({ repository }: RepositoryDetailPa
         <dd>{formatUpdatedAt(repository.updated_at)}</dd>
       </dl>
 
-      <a className="gh-link" href={repository.html_url} target="_blank" rel="noopener noreferrer">
+      <a className="user-github-link" href={repository.html_url} target="_blank" rel="noopener noreferrer">
         View repository on GitHub
       </a>
     </section>

@@ -39,32 +39,6 @@
   }
 }
 
-.filter-input {
-  width: 320px;
-  padding: 8px 14px;
-  font-size: 14px;
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  background: var(--bg);
-  color: var(--text-h);
-  outline: none;
-
-  &:focus {
-    border-color: var(--accent);
-  }
-}
-
-.back-link {
-  align-self: flex-start;
-  font-size: 14px;
-  color: var(--text);
-  text-decoration: none;
-
-  &:hover {
-    color: var(--accent);
-  }
-}
-
 .badge {
   display: inline-flex;
   align-items: center;
@@ -132,7 +106,7 @@
     border-radius: 50%;
   }
 
-  .login {
+  .user-card-login {
     max-width: 100%;
     overflow: hidden;
     font-size: 14px;
@@ -148,7 +122,7 @@
   }
 }
 
-.favorite-btn {
+.user-card-favorite-button {
   position: absolute;
   top: 8px;
   right: 8px;

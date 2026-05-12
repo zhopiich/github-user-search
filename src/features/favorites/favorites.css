@@ -1,3 +1,18 @@
+.favorites-filter-input {
+  width: 320px;
+  padding: 8px 14px;
+  font-size: 14px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg);
+  color: var(--text-h);
+  outline: none;
+
+  &:focus {
+    border-color: var(--accent);
+  }
+}
+
 .favorites-user-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));

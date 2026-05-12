@@ -46,7 +46,7 @@ export default function FavoritesPage() {
     <div className="page">
       {favorites.length > 1 && (
         <input
-          className="filter-input"
+          className="favorites-filter-input"
           type="text"
           placeholder="Filter favorites..."
           value={search}

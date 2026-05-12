@@ -59,13 +59,13 @@
   color: var(--accent);
 }
 
-.token-input {
+.search-token-input {
   display: flex;
   align-items: center;
   gap: 10px;
 }
 
-.token-toggle {
+.search-token-toggle {
   padding: 6px 14px;
   font-size: 13px;
   border-radius: 6px;
@@ -94,7 +94,7 @@
   }
 }
 
-.token-input input {
+.search-token-input input {
   padding: 6px 12px;
   font-size: 13px;
   border: 1px solid var(--border);
@@ -110,13 +110,13 @@
   }
 }
 
-.virtual-user-grid {
+.search-virtual-user-grid {
   position: relative;
   width: 100%;
   max-width: 900px;
 }
 
-.virtual-user-row {
+.search-virtual-user-row {
   position: absolute;
   top: 0;
   left: 0;

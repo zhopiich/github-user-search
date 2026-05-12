@@ -25,13 +25,13 @@ export default function UserReposPanel({
     loadMoreLabel = 'Loading repositories...'
 
   return (
-    <section className="user-tab-panel repo-list" aria-label="User repositories">
+    <section className="user-tab-panel user-repo-list" aria-label="User repositories">
       <ul>
         {repos.map(repo => (
-          <li key={repo.id} className="repo-list-item">
+          <li key={repo.id} className="user-repo-list-item">
             <Link to={`/user/${login}/repos/${encodeURIComponent(repo.name)}`}>{repo.name}</Link>
             {repo.description && <p>{repo.description}</p>}
-            <div className="repo-meta">
+            <div className="user-repo-meta">
               {repo.language && <span>{repo.language}</span>}
               <span>
                 Stars

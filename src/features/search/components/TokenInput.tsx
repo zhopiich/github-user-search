@@ -9,10 +9,10 @@ export default function TokenInput({ value, onChange }: Props) {
   const [show, setShow] = useState(false)
 
   return (
-    <div className="token-input">
+    <div className="search-token-input">
       <button
         type="button"
-        className={`token-toggle ${show ? 'active' : ''} ${value ? 'has-token' : ''}`}
+        className={`search-token-toggle ${show ? 'active' : ''} ${value ? 'has-token' : ''}`}
         onClick={() => setShow(s => !s)}
       >
         With Token

@@ -26,14 +26,14 @@ function UserCard({ user }: Props) {
     <Link className="user-card" to={`/user/${user.login}`}>
       <button
         type="button"
-        className={`favorite-btn ${isFavorited ? 'favorited' : ''}`}
+        className={`user-card-favorite-button ${isFavorited ? 'favorited' : ''}`}
         onClick={toggleFavorite}
         aria-label={isFavorited ? 'Remove from favorites' : 'Add to favorites'}
       >
         ★
       </button>
       <img src={user.avatar_url} alt={user.login} width={64} height={64} />
-      <span className="login">{user.login}</span>
+      <span className="user-card-login">{user.login}</span>
     </Link>
   )
 }
