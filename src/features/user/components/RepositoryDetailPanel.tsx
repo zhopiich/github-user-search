@@ -1,15 +1,8 @@
 import type { GitHubRepository } from '@/types/github'
+import { formatUpdatedAt } from '@/lib/dateFormat'
 
 interface RepositoryDetailPanelProps {
   repository: GitHubRepository
-}
-
-function formatUpdatedAt(value: string) {
-  return new Intl.DateTimeFormat('en', {
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric',
-  }).format(new Date(value))
 }
 
 export default function RepositoryDetailPanel({ repository }: RepositoryDetailPanelProps) {

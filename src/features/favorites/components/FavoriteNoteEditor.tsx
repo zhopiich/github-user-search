@@ -1,18 +1,10 @@
 import { useState } from 'react'
+import { formatUpdatedAt } from '@/lib/dateFormat'
 import { useFavoriteNotesStore } from '@/store/favoriteNotesStore'
 
 interface FavoriteNoteEditorProps {
   userId: number
   login: string
-}
-
-function formatUpdatedAt(value: string) {
-  return new Intl.DateTimeFormat('en', {
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric',
-    timeZone: 'UTC',
-  }).format(new Date(value))
 }
 
 export default function FavoriteNoteEditor({ userId, login }: FavoriteNoteEditorProps) {

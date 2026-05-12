@@ -1,5 +1,6 @@
 import type { GitHubRepository } from '@/types/github'
 import { Link } from 'react-router-dom'
+import { formatUpdatedAt } from '@/lib/dateFormat'
 
 interface UserReposPanelProps {
   login: string
@@ -7,14 +8,6 @@ interface UserReposPanelProps {
   hasNextPage: boolean
   isFetchingNextPage: boolean
   onLoadMore: () => void
-}
-
-function formatUpdatedAt(value: string) {
-  return new Intl.DateTimeFormat('en', {
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric',
-  }).format(new Date(value))
 }
 
 export default function UserReposPanel({
