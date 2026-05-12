@@ -1,14 +1,17 @@
 import { NavLink } from 'react-router-dom'
 import { useFavoritesStore } from '@/store/favoritesStore'
+import { useSearchNavigationStore } from '@/store/searchNavigationStore'
 
 export default function Navbar() {
   const count = useFavoritesStore(s => s.favorites.length)
+  const lastSearchQuery = useSearchNavigationStore(s => s.lastSearchQuery)
+  const searchHref = lastSearchQuery ? `/?q=${encodeURIComponent(lastSearchQuery)}` : '/'
 
   return (
     <nav className="navbar">
       <h1>GitHub User Search</h1>
       <div className="nav-links">
-        <NavLink to="/" end className={({ isActive }) => isActive ? 'active' : ''}>
+        <NavLink to={searchHref} end className={({ isActive }) => isActive ? 'active' : ''}>
           Search
         </NavLink>
         <NavLink to="/favorites" className={({ isActive }) => isActive ? 'active' : ''}>
