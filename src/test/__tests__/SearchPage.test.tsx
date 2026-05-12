@@ -6,7 +6,7 @@ import { BrowserRouter } from 'react-router-dom'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import SearchResults from '@/features/search/components/SearchResults'
 import SearchPage from '@/features/search/pages/SearchPage'
-import { useSearchHistoryStore } from '@/features/search/stores/searchHistoryStore'
+import { useSearchHistoryStore } from '@/store/searchHistoryStore'
 
 vi.mock('@/features/search/components/VirtualUserGrid', () => ({
   default: ({ users }: { users: Array<{ login: string }> }) => (

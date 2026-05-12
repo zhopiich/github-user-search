@@ -3,6 +3,7 @@ import { useEffect } from 'react'
 import { useShallow } from 'zustand/react/shallow'
 import { useDebounce } from '@/hooks/useDebounce'
 import { useAuthStore } from '@/store/authStore'
+import { useSearchHistoryStore } from '@/store/searchHistoryStore'
 import RecentSearches from '../components/RecentSearches'
 import SearchBar from '../components/SearchBar'
 import SearchResults from '../components/SearchResults'
@@ -10,7 +11,6 @@ import { getSearchResultsData, getSearchResultsStatus } from '../components/Sear
 import TokenInput from '../components/TokenInput'
 import { useSearchPageParams } from '../hooks/useSearchPageParams'
 import { useSearchUsers } from '../hooks/useSearchUsers'
-import { useSearchHistoryStore } from '../stores/searchHistoryStore'
 
 export default function SearchPage() {
   const token = useAuthStore(s => s.token)
