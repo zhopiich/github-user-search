@@ -5,6 +5,7 @@ import App from '@/App'
 import { useAuthStore } from '@/store/authStore'
 import { useFavoriteNotesStore } from '@/store/favoriteNotesStore'
 import { useFavoritesStore } from '@/store/favoritesStore'
+import { useSearchHistoryStore } from '@/store/searchHistoryStore'
 
 function renderSettingsRoute() {
   window.history.pushState({}, '', '/settings')
@@ -16,6 +17,10 @@ beforeEach(() => {
   useAuthStore.setState({ token: '', rememberToken: false })
   useFavoritesStore.setState({ favorites: [] })
   useFavoriteNotesStore.setState({ notesByUserId: {} })
+  useSearchHistoryStore.setState({
+    recentSearches: [],
+    rememberSearchHistory: false,
+  })
   window.history.pushState({}, '', '/')
 })
 
@@ -119,6 +124,29 @@ describe('settings page', () => {
 
     expect(useFavoritesStore.getState().favorites).toEqual([])
     expect(useFavoriteNotesStore.getState().notesByUserId).toEqual({})
+  })
+
+  it('toggles recent search persistence', async () => {
+    const user = userEvent.setup()
+    renderSettingsRoute()
+
+    await user.click(screen.getByRole('checkbox', { name: 'Remember recent searches on this device' }))
+
+    expect(useSearchHistoryStore.getState().rememberSearchHistory).toBe(true)
+  })
+
+  it('clears recent searches from settings', async () => {
+    const user = userEvent.setup()
+    useSearchHistoryStore.setState({
+      recentSearches: ['react'],
+      rememberSearchHistory: false,
+    })
+    renderSettingsRoute()
+
+    await user.click(screen.getByRole('button', { name: 'Clear recent searches' }))
+
+    expect(useSearchHistoryStore.getState().recentSearches).toEqual([])
+    expect(screen.getByText('Recent searches cleared.')).toBeInTheDocument()
   })
 
   it('hydrates remembered token when the app starts', () => {

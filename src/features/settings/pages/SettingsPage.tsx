@@ -1,6 +1,6 @@
 import { useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
-import { useFavoritesDataSettings, useTokenSettings } from '../hooks/useSettingsStores'
+import { useFavoritesDataSettings, useSearchHistorySettings, useTokenSettings } from '../hooks/useSettingsStores'
 import { parseFavoriteUsers } from '../lib/favoritesImport'
 
 export default function SettingsPage() {
@@ -18,6 +18,11 @@ export default function SettingsPage() {
     exportFavorites,
     clearNotes,
   } = useFavoritesDataSettings()
+  const {
+    rememberSearchHistory,
+    setRememberSearchHistory,
+    clearSearches,
+  } = useSearchHistorySettings()
   const [showToken, setShowToken] = useState(false)
   const [favoritesJson, setFavoritesJson] = useState('')
   const [message, setMessage] = useState('')
@@ -61,6 +66,12 @@ export default function SettingsPage() {
     clearNotes()
     setFavoritesJson('')
     setMessage('Favorites cleared.')
+  }
+
+  function handleClearRecentSearches() {
+    clearFeedback()
+    clearSearches()
+    setMessage('Recent searches cleared.')
   }
 
   return (
@@ -130,6 +141,22 @@ export default function SettingsPage() {
             Clear favorites
           </button>
         </div>
+      </section>
+
+      <section className="settings-section">
+        <h3>Search Preferences</h3>
+        <label className="settings-checkbox">
+          <input
+            type="checkbox"
+            checked={rememberSearchHistory}
+            onChange={e => setRememberSearchHistory(e.target.checked)}
+          />
+          Remember recent searches on this device
+        </label>
+        <p className="status">Recent searches are session-only unless this is enabled.</p>
+        <button className="retry-button" type="button" onClick={handleClearRecentSearches}>
+          Clear recent searches
+        </button>
       </section>
 
       {error && <p className="status error" role="alert">{error}</p>}

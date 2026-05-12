@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it } from 'vitest'
-import { useSearchHistoryStore } from '@/features/search/stores/searchHistoryStore'
+import { useSearchHistoryStore } from '@/store/searchHistoryStore'
 
 beforeEach(() => {
   localStorage.clear()
