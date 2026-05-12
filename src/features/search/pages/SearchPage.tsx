@@ -12,6 +12,7 @@ import { getSearchResultsData, getSearchResultsStatus } from '../components/Sear
 import TokenInput from '../components/TokenInput'
 import { useSearchPageParams } from '../hooks/useSearchPageParams'
 import { useSearchUsers } from '../hooks/useSearchUsers'
+import '../search.css'
 
 export default function SearchPage() {
   const token = useAuthStore(s => s.token)

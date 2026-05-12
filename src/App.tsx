@@ -13,7 +13,8 @@ import UserOverviewRoute from '@/features/user/pages/UserOverviewRoute'
 import UserRepoDetailRoute from '@/features/user/pages/UserRepoDetailRoute'
 import UserReposRoute from '@/features/user/pages/UserReposRoute'
 import { useAuthStore } from '@/store/authStore'
-import './App.css'
+import '@/styles/layout.css'
+import '@/styles/shared.css'
 
 const queryClient = new QueryClient()
 

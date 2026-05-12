@@ -3,6 +3,7 @@ import { useMemo, useState } from 'react'
 import UserCard from '@/components/UserCard'
 import { useFavoritesStore } from '@/store/favoritesStore'
 import FavoriteNoteEditor from '../components/FavoriteNoteEditor'
+import '../favorites.css'
 
 interface FavoritesContentProps {
   favorites: GitHubUser[]
